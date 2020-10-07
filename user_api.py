@@ -7,12 +7,8 @@ from flask_restful import abort, reqparse, Api, Resource
 spam = Flask(__name__)
 api = Api(spam)
 
-
-
 parser = reqparse.RequestParser()
 parser.add_argument('name')
-
-
 
 def load_json():
     with open('storage.json') as json_file:
@@ -25,10 +21,10 @@ def dump_json(USERS):
 
 USERS = load_json()
 
-
 def abort_if_user_doesnt_exist(user_id):
     if user_id not in USERS:
         abort(404, message=f'User {user_id} doesn\'t exist')
+
 
 class User(Resource):
     def get(self, user_id):
@@ -50,7 +46,6 @@ class User(Resource):
         USERS.pop(user_id)
         dump_json(USERS)
         return '', 204
-
 
 
 class UserList(Resource):
